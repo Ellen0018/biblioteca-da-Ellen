@@ -27,6 +27,14 @@ def devolver_livro(codigo):
 
     return "Livro não encontrado."
 
+def listar_livros():
+ print("\n===== LIVROS CADASTRADOS =====")
+ for livro in livros:
+        print(f"Título: {livro[0]}")
+        print(f"Autor: {livro[1]}")
+        print(f"Código: {livro[2]}")
+        print(f"Ano: {livro[3]}")
+        print(f"Status: {livro[4]}")
 
 def menu():
     print("\n===== MENU DA BIBLIOTECA =====")
@@ -63,6 +71,9 @@ while True:
         codigo = input("Digite o código do livro: ")
         mensagem = devolver_livro(codigo)
         print(mensagem)
+        
+    elif opcao == "4":
+        listar_livros()
 
     elif opcao == "7":
         print("Programa encerrado!")
