@@ -57,6 +57,8 @@ def buscar_livro(tipo, nome):
 
     return "Livro não encontrado."
 
+   
+    
 
 # Função para exibir o menu e receber a opção do usuário.
 def menu():
