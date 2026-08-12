@@ -1,9 +1,32 @@
 import csv
  
 ARQUIVO = 'livros.csv'
+livros = []
 def cadastro_livros(titulo, autor, codigo, ano, status= "disponivel"):
-    livros = []
     livros.append ([titulo,autor,codigo,ano,status])
+
+def emprestar_livro(codigo):
+     for livro in livros:
+        if livro[2] == codigo:
+            if livro[4] == "disponivel":
+                livro[4] = "emprestado"
+                return "Livro emprestado com sucesso!"
+            else:
+                return "Esse livro já está emprestado."
+
+            return "Livro não encontrado."
+        
+def devolver_livro(codigo):
+    for livro in livros:
+        if livro[2] == codigo:
+            if livro[4] == "emprestado":
+                livro[4] = "disponivel"
+                return "Livro devolvido com sucesso!"
+            else:
+                return "Esse livro já está disponível."
+
+    return "Livro não encontrado."
+
 
 def menu():
     print("\n===== MENU DA BIBLIOTECA =====")
@@ -30,6 +53,16 @@ while True:
 
         cadastro_livros(titulo, autor, codigo, ano)
         print("Livro cadastrado!")
+
+    elif opcao == "2":
+        codigo = input("Digite o código do livro: ")
+        mensagem = emprestar_livro(codigo)
+        print(mensagem)
+
+    elif opcao == "3":
+        codigo = input("Digite o código do livro: ")
+        mensagem = devolver_livro(codigo)
+        print(mensagem)
 
     elif opcao == "7":
         print("Programa encerrado!")
