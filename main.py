@@ -1,13 +1,17 @@
 import csv
- 
+
 ARQUIVO = 'livros.csv'
 livros = []
-def cadastro_livros(titulo, autor, codigo, ano, status= "disponivel"):
-    livros.append ([titulo,autor,codigo,ano,status])
 
-#função para emprestar livros e mostrar status(disponivel ou emprestado).
+
+# Função para cadastrar livros, com status padrão "disponivel".
+def cadastro_livros(titulo, autor, codigo, ano, status="disponivel"):
+    livros.append([titulo, autor, codigo, ano, status])
+
+
+# Função para emprestar livros e mostrar o status.
 def emprestar_livro(codigo):
-     for livro in livros:
+    for livro in livros:
         if livro[2] == codigo:
             if livro[4] == "disponivel":
                 livro[4] = "emprestado"
@@ -15,9 +19,10 @@ def emprestar_livro(codigo):
             else:
                 return "Esse livro já está emprestado."
 
-            return "Livro não encontrado."
-        
- #função para devolver livros emprestados com o código.       
+    return "Livro não encontrado."
+
+
+# Função para devolver livros e mostrar o status.
 def devolver_livro(codigo):
     for livro in livros:
         if livro[2] == codigo:
@@ -29,17 +34,20 @@ def devolver_livro(codigo):
 
     return "Livro não encontrado."
 
-#função para listar os livros cadastrados com as informações.
+
+# Função para listar livros cadastrados, mostrando título, autor, código, ano e status.
 def listar_livros():
- print("\n===== LIVROS CADASTRADOS =====")
- for livro in livros:
+    print("\n===== LIVROS CADASTRADOS =====")
+
+    for livro in livros:
         print(f"Título: {livro[0]}")
         print(f"Autor: {livro[1]}")
         print(f"Código: {livro[2]}")
         print(f"Ano: {livro[3]}")
         print(f"Status: {livro[4]}")
 
-#função para buscar os livros da lista.
+
+# Função para buscar livros pelo título ou autor.
 def buscar_livro(tipo, nome):
     for livro in livros:
         if tipo == "titulo" and livro[0] == nome:
@@ -50,7 +58,7 @@ def buscar_livro(tipo, nome):
     return "Livro não encontrado."
 
 
-#função de menu para mostrar oq o programa 
+# Função para exibir o menu e receber a opção do usuário.
 def menu():
     print("\n===== MENU DA BIBLIOTECA =====")
     print("1 - Cadastrar livro")
@@ -64,6 +72,8 @@ def menu():
     opcao = input("Digite a opção desejada: ")
 
     return opcao
+
+
 # Mantém o menu funcionando até o usuário escolher sair.
 while True:
     opcao = menu()
@@ -86,7 +96,7 @@ while True:
         codigo = input("Digite o código do livro: ")
         mensagem = devolver_livro(codigo)
         print(mensagem)
-        
+
     elif opcao == "4":
         listar_livros()
 
@@ -94,11 +104,11 @@ while True:
         tipo = input("Digite titulo ou autor: ")
         nome = input("Digite o título ou autor: ")
         resultado = buscar_livro(tipo, nome)
-       print(resultado)
-  
+        print(resultado)
+
     elif opcao == "7":
-       print("Programa encerrado!")
-       break
+        print("Programa encerrado!")
+        break
 
     else:
         print("Opção inválida!")
