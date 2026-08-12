@@ -5,6 +5,7 @@ livros = []
 def cadastro_livros(titulo, autor, codigo, ano, status= "disponivel"):
     livros.append ([titulo,autor,codigo,ano,status])
 
+#função para emprestar livros e mostrar status(disponivel ou emprestado).
 def emprestar_livro(codigo):
      for livro in livros:
         if livro[2] == codigo:
@@ -16,6 +17,7 @@ def emprestar_livro(codigo):
 
             return "Livro não encontrado."
         
+ #função para devolver livros emprestados com o código.       
 def devolver_livro(codigo):
     for livro in livros:
         if livro[2] == codigo:
@@ -27,6 +29,7 @@ def devolver_livro(codigo):
 
     return "Livro não encontrado."
 
+#função para listar os livros cadastrados com as informações.
 def listar_livros():
  print("\n===== LIVROS CADASTRADOS =====")
  for livro in livros:
@@ -36,6 +39,18 @@ def listar_livros():
         print(f"Ano: {livro[3]}")
         print(f"Status: {livro[4]}")
 
+#função para buscar os livros da lista.
+def buscar_livro(tipo, nome):
+    for livro in livros:
+        if tipo == "titulo" and livro[0] == nome:
+            return livro
+        elif tipo == "autor" and livro[1] == nome:
+            return livro
+
+    return "Livro não encontrado."
+
+
+#função de menu para mostrar oq o programa 
 def menu():
     print("\n===== MENU DA BIBLIOTECA =====")
     print("1 - Cadastrar livro")
@@ -75,9 +90,15 @@ while True:
     elif opcao == "4":
         listar_livros()
 
+    elif opcao == "5":
+        tipo = input("Digite titulo ou autor: ")
+        nome = input("Digite o título ou autor: ")
+        resultado = buscar_livro(tipo, nome)
+       print(resultado)
+  
     elif opcao == "7":
-        print("Programa encerrado!")
-        break
+       print("Programa encerrado!")
+       break
 
     else:
         print("Opção inválida!")
