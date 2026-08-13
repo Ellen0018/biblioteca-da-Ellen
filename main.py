@@ -6,15 +6,33 @@ livros = []
 
 # Função para cadastrar livros, com status padrão "disponivel".
 def cadastro_livros(titulo, autor, codigo, ano, status="disponivel"):
-    livros.append([titulo, autor, codigo, ano, status])
+    livro = {"titulo": titulo,"autor": autor,"codigo": codigo,"ano": ano,"status": status}
+
+    with open(ARQUIVO,'a',encoding='UTF-8',newline='') as arquivo:
+        cabecalho = ["titulo","autor","codigo","ano","status"]
+        escritor = csv.DictWriter(arquivo,fieldnames=cabecalho)
+        escritor.writerow(livro)
+
 
 
 # Função para emprestar livros e mostrar o status.
 def emprestar_livro(codigo):
+    with open(ARQUIVO,'r',encoding='UTF-8',newline='') as arquivo:
+            cabecalho = ["titulo","autor","codigo","ano","status"]
+            leitor = csv.DictReader(arquivo,fieldnames=cabecalho)
+            for livro in leitor:
+                livros.append(livro)
+                
     for livro in livros:
-        if livro[2] == codigo:
-            if livro[4] == "disponivel":
-                livro[4] = "emprestado"
+        if livro['codigo'] == codigo:
+            if livro['status'] == "disponivel":
+                livro['status'] = "emprestado"
+                with open(ARQUIVO,'w',encoding='UTF-8',newline='') as arquivo:
+                    cabecalho = ["titulo","autor","codigo","ano","status"]
+                    escritor = csv.DictWriter(arquivo,fieldnames=cabecalho)
+                    escritor.writeheader()
+                    escritor.writerows(livros)
+                        
                 return "Livro emprestado com sucesso!"
             else:
                 return "Esse livro já está emprestado."
@@ -37,9 +55,14 @@ def devolver_livro(codigo):
 
 # Função para listar livros cadastrados, mostrando título, autor, código, ano e status.
 def listar_livros():
-    print("\n===== LIVROS CADASTRADOS =====")
+     with open(ARQUIVO,'r',encoding='UTF-8',newline='') as arquivo:
+            cabecalho = ["titulo","autor","codigo","ano","status"]
+            leitor = csv.DictReader(arquivo,fieldnames=cabecalho)
+            for livro in leitor:
+                livros.append(livro) 
 
-    for livro in livros:
+print("\n===== LIVROS CADASTRADOS =====")
+for livro in livros:
         print(f"Título: {livro[0]}")
         print(f"Autor: {livro[1]}")
         print(f"Código: {livro[2]}")
@@ -49,10 +72,16 @@ def listar_livros():
 
 # Função para buscar livros pelo título ou autor.
 def buscar_livro(tipo, nome):
+    with open(ARQUIVO,'r',encoding='UTF-8',newline='') as arquivo:
+        cabecalho = ["titulo","autor","codigo","ano","status"]
+        leitor = csv.DictReader(arquivo,fieldnames=cabecalho)
+        for livro in leitor:
+            livros.append(livro)
+
     for livro in livros:
-        if tipo == "titulo" and livro[0] == nome:
+        if tipo == "titulo" and livro['nome'] == nome:
             return livro
-        elif tipo == "autor" and livro[1] == nome:
+        elif tipo == "autor" and livro['autor'] == nome:
             return livro
 
     return "Livro não encontrado."
@@ -107,6 +136,9 @@ while True:
         nome = input("Digite o título ou autor: ")
         resultado = buscar_livro(tipo, nome)
         print(resultado)
+
+    elif opcao == "6":
+          
 
     elif opcao == "7":
         print("Programa encerrado!")
